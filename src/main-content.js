@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from './card';
+import { Cart } from './cart';
 
 export class MainContent extends React.Component {
     constructor(props) {
@@ -8,38 +9,88 @@ export class MainContent extends React.Component {
         this.goods = [
             {
                 title: 'iPhone Xs Max',
-                price: 'Infinity'
+                price: 'Infinity',
+                _id: 1
             },
             {
                 title: 'Samsung XXX',
-                price: '34567'
+                price: '34567',
+                _id: 2
             },
             {
                 title: 'Xiomi Mi',
+                _id: 3
             },
             {
                 title: 'Пылесос',
-                price: '5685'
+                price: '5685',
+                _id: 4
             },
             {
-                price: '2348957'
+                price: '2348957',
+                _id: 4
             }
         ];
+        this.state = {
+            cart: [],
+        };
+        this.cart = [];
+        this.Name = 'Sam';
+        setTimeout(function() {
+            this.Name = 'opopop';
+        }, 2000);
+        this.cartElement = (<div>Nothing to buy</div>);
+    //   this.show = this.show.bind(this);
+      this.addToCart = this.addToCart.bind(this);
     }
-    handleClick(index) {
-        console.log(index);
+
+    show(data) {
+        console.log('test: ', data, this);
+    //   this.goods[index].isActive = !this.goods[index].isActive;
+    }
+
+    addToCart(id) {
+        this.cart.push(id);
+        this.setState(Object.assign({}, this.state));
+        // this.setState(Object.assign({}, this.state, {
+        //     cart: this.cart
+        // }));
+    }
+
+    renderCard(i) {
+        return (
+            <div onClick={() => this.handleClick(i)}>
+                <Card
+                    item={this.goods[i]}
+                />
+            </div>
+        );
+    }
+
+    renderCart() {
+        const content = (
+            <div>
+                {(
+                <button type="submit" className="btn nav-btn-red">Go to cart({this.cart.length})</button>
+                )}
+            </div>
+            )
+        return content;
     }
 
 
     render () {
         return(
             <div className='wrapper'>
+                {/* <Cart cart={this.state.cart} /> */}
+                {this.cart.length ? this.renderCart() : (<div>Nothing in cart</div>)}
                 <div className='content'>
-                    {this.goods.map(i => <Card item={i} onClick={() => this.handleClick(i)} />)}
+                    {/* {this.renderCard(0)}
+                    {this.renderCard(1)} */}
+                    {this.goods.map((i, key) =>
+                        <Card key={key} item={i} fn={this.show} addToCart={this.addToCart} />
+                    )}
                 </div>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
                 <a
                     className="App-link"
                     href="https://reactjs.org"

@@ -10,6 +10,9 @@
   padding: 20px;
   border: 1px solid #fff;
 }
+.card.active {
+  border: 1px solid tomato;
+}
 .content + p {
   clear: both;
 }
