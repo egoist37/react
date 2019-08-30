@@ -51,7 +51,8 @@ export class MainContent extends React.Component {
 
     addToCart(id) {
         this.cart.push(id);
-        this.setState(Object.assign({}, this.state));
+        // const cart = ;
+        this.setState({cart: this.cart});
         // this.setState(Object.assign({}, this.state, {
         //     cart: this.cart
         // }));
@@ -83,7 +84,7 @@ export class MainContent extends React.Component {
         return(
             <div className='wrapper'>
                 {/* <Cart cart={this.state.cart} /> */}
-                {this.cart.length ? this.renderCart() : (<div>Nothing in cart</div>)}
+                {this.cart.length ? this.renderCart() : (<div>empty cart, add something</div>)}
                 <div className='content'>
                     {/* {this.renderCard(0)}
                     {this.renderCard(1)} */}
@@ -91,17 +92,7 @@ export class MainContent extends React.Component {
                         <Card key={key} item={i} fn={this.show} addToCart={this.addToCart} />
                     )}
                 </div>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
                 <img src={this.img} alt={this.props.alt} title={this.props.title} />
-
-                content
             </div>
         );
     }
