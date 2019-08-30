@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+.App .cart {
+  display: none;
+}
+.App.cart-full .cart {
+  display: block;
+}
+
 .card {
   width: 20%;
   float: left;
@@ -9,6 +16,9 @@
   margin: 20px 0;
   padding: 20px;
   border: 1px solid #fff;
+}
+.card.active {
+  border-color: tomato;
 }
 .content + p {
   clear: both;
