@@ -20,6 +20,22 @@
 .card.active {
   border-color: tomato;
 }
+.product__main-info {
+  float: left;
+  width: 50%;
+}
+
+.product__price > mark {
+  margin-left: 20px;
+  padding: 3px 5px;
+}
+
+.product__description {
+  float: left;
+  display: block;
+  padding-top: 8px;
+  width: 50%;
+}
 .content + p {
   clear: both;
 }

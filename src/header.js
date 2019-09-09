@@ -5,9 +5,18 @@ import React from 'react';
 export class Header extends React.Component {
   constructor(props) {
     super(props);
-    console.log('PROPS: ', props);
+    console.log('PROPS in Header constructor: ', props);
     
   }
+
+  componentDidMount () {
+    const params = this.props.match.params;
+    const state = this.props.location.state;
+
+    console.log("PARAMS: ", params);
+    console.log("STATE: ", state);
+  }
+
   render() {
     return (
       <div>

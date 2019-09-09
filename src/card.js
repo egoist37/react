@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Base } from './base-class';
 
 export class Card extends Base {
@@ -38,8 +39,10 @@ export class Card extends Base {
         });
         const price = Math.round((Math.random() * 100)).toFixed(2);
         this.setPrice(price);
-        const item = this.props.fn(this.props.k);
-        console.log("item: ", item);
+        this.props.fn({
+            id: this.props.item.id,
+            price
+        });
     }
 
     handleClickAddToCart(event) {
@@ -60,6 +63,10 @@ export class Card extends Base {
         console.log('componentWillUnmount...');
     }
 
+    stopPropagation(event) {
+        event.stopPropagation();
+    }
+
     render() {
         return(
             <div className={ this.getClassName() }
@@ -72,6 +79,16 @@ export class Card extends Base {
                 </h6>
                 <button onClick={this.handleClickAddToCart}>buy</button>
                 <button onClick={this.remove}>remove</button>
+                <Link to={{
+                    pathname: `/product/${this.props.item.id}`,
+                    state: {
+                        price: this.price,
+                        title: this.getTitle()
+                    }
+                }}
+                      onClick={this.stopPropagation }>
+                    show details
+                </Link>
             </div>
         );
     }

@@ -10,41 +10,74 @@ export class MainContent extends React.Component {
         this.goods = [
             {
                 title: 'iPhone Xs Max',
-                price: 'Infinity'
+                price: 'Infinity',
+                id: '02893hr089t3ehrhgeh'
             },
             {
                 title: 'Samsung XXX',
-                price: '34567'
+                price: '34567',
+                id: '30ij0iwstinsixnadskf'
             },
             {
                 title: 'Xiomi Mi',
+                id: '3itjsijngxinsxfpnfx'
             },
             {
                 title: 'Пылесос',
-                price: '5685'
+                price: '5685',
+                id: 'weu89rg9sudfxudg'
             },
             {
-                price: '2348957'
+                price: '2348957',
+                id: 'we9urh9uewbgbsorubodst'
             }
         ];
         this.cart = [];
         this.state = {
             totalAmount: 0,
-            cart: []
+            cart: [],
+            filteredProduct: this.goods
         };
+        this.searchValue = 'search smth';
         const that = this;
-        const fnsToBind = ['addToCart', 'handleClick', 'removeCard'];
+        const fnsToBind = [
+            'addToCart',
+            'handleClick',
+            'removeCard',
+            'searchChange'];
 
         fnsToBind.forEach((fn) =>
             that[fn] = that[fn].bind(that));
             console.log('constructor...');
     }
 
-    handleClick(key) {
-        return this.goods[key];
+    setProductsState(products) {
+        const productsString = JSON.stringify(products);
+        localStorage.setItem('products', productsString);
+    }
+
+    /*
+     * @params {Object}
+     * {
+     *      id: string
+     *      price: string } number
+     * }
+     */
+    handleClick(params) {
+        const goods = this.goods.map(product => {
+            if (product.id === params.id) {
+                product.price = params.price;
+            }
+            return product;
+        });
+        this.setState({
+            goods,
+        });
+        this.setProductsState(goods);
     }
 
     componentDidMount() {
+        this.setProductsState(this.goods);
         console.log('componentDidMount...');
     }
 
@@ -78,6 +111,17 @@ export class MainContent extends React.Component {
         return this.state.totalAmount;
     }
 
+    searchChange(e) {
+        const searchValue = e.target.value;
+
+        const filteredProduct = this.goods
+                    .filter(product =>
+                        product.title && product.title.indexOf(searchValue) !== -1);
+        this.setState({
+            filteredProduct
+        });
+    }
+
     renderCart() {
         const content = (
             <div>
@@ -104,11 +148,15 @@ export class MainContent extends React.Component {
             <div className='wrapper'>
                 {this.cart.length ? this.renderCart() : (<div>empty cart, add something</div>)}
 
+                <input type="text"
+                    value={this.state.searchValue} 
+                    onChange={this.searchChange} />
+
                 <div className='content'>
-                    {this.goods.map((item, key) =>
+                    {this.state.filteredProduct.map((item, key) =>
                     <Card
                         item={item}
-                        k={key}
+                        id={key}
                         key={key}
                         addToCart={this.addToCart}
                         removeCard={this.removeCard}
