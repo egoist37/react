@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card } from './card';
+import { CartElement } from './cart/cart-element';
+import { Clock } from './clock';
 
 export class MainContent extends React.Component {
     constructor(props) {
@@ -31,18 +33,28 @@ export class MainContent extends React.Component {
             cart: []
         };
         const that = this;
-        const fnsToBind = ['addToCart', 'handleClick'];
+        const fnsToBind = ['addToCart', 'handleClick', 'removeCard'];
 
         fnsToBind.forEach((fn) =>
             that[fn] = that[fn].bind(that));
+            console.log('constructor...');
     }
 
     handleClick(key) {
         return this.goods[key];
     }
 
+    componentDidMount() {
+        console.log('componentDidMount...');
+    }
+
+    componentWillMount() {
+        console.log('componentWillMmount...');
+    }
+
     addToCart(item) {
         this.cart.push(item);
+        const cart = this.cart;
         const totalAmount = this.cart
             .reduce((result, item) => {
                 result += +item.price || 0;
@@ -50,7 +62,15 @@ export class MainContent extends React.Component {
         }, 0);
         this.setState({
             totalAmount,
-            cart: this.cart,
+            cart,
+        });
+    }
+
+    removeCard(index) {
+        this.goods.splice(index, 1);
+        const goods = [].concat(this.goods);
+        this.setState({
+            goods,
         });
     }
 
@@ -64,8 +84,14 @@ export class MainContent extends React.Component {
                     <strong>Full price: {this.getTotalAmount()}</strong>
                     <button type="submit"
                         className="cart-btn">
-                        Go to cart({this.state.cart.length})
+                        Go to cart
+                        ({this.state.cart.length})
                     </button>
+                    {
+                        this.state.cart.map((el, key) => 
+                            <CartElement key={key} item={el} />
+                        )
+                    }
             </div>
             );
         return content;
@@ -73,9 +99,11 @@ export class MainContent extends React.Component {
 
 
     render () {
+        console.log('render');
         return(
             <div className='wrapper'>
                 {this.cart.length ? this.renderCart() : (<div>empty cart, add something</div>)}
+
                 <div className='content'>
                     {this.goods.map((item, key) =>
                     <Card
@@ -83,10 +111,13 @@ export class MainContent extends React.Component {
                         k={key}
                         key={key}
                         addToCart={this.addToCart}
+                        removeCard={this.removeCard}
                         fn={this.handleClick} />)}
                 </div>
-                '
+
                 <img src={this.img} alt={this.props.alt} title={this.props.title} />
+
+                <Clock />
 
                 content
             </div>

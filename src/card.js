@@ -1,6 +1,7 @@
 import React from 'react';
+import { Base } from './base-class';
 
-export class Card extends React.Component {
+export class Card extends Base {
     constructor(props) {
         super(props);
         this.props = props;
@@ -8,12 +9,13 @@ export class Card extends React.Component {
         this.currencySign = '$';
         this.defaultPrice = '0';
         this.price = this.getPrice();
-        this.onClickHandler = this.onClickHandler.bind(this)
-        this.addToCart = this.addToCart.bind(this)
+        this.onClickHandler = this.onClickHandler.bind(this);
+        this.handleClickAddToCart = this.handleClickAddToCart.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
     getTitle() {
-        return this.value ? this.value.item.title : this.defaultTitle;
+        return (this.props && this.props.item.title) || this.defaultTitle;
     }
 
     getPrice() {
@@ -40,13 +42,22 @@ export class Card extends React.Component {
         console.log("item: ", item);
     }
 
-    addToCart(event) {
+    handleClickAddToCart(event) {
         event.stopPropagation();
-        // this.props.addToCart(this.props.item);
         this.props.addToCart({
             title: this.props.item.title,
             price: this.price.slice(1)
         });
+    }
+
+    remove(event) {
+        event.stopPropagation();
+
+        this.props.removeCard(this.props.k);
+    }
+
+    componentWillUnmount() {
+        console.log('componentWillUnmount...');
     }
 
     render() {
@@ -59,7 +70,8 @@ export class Card extends React.Component {
                 <h6>
                     {this.price}
                 </h6>
-                <button onClick={this.addToCart}>buy</button>
+                <button onClick={this.handleClickAddToCart}>buy</button>
+                <button onClick={this.remove}>remove</button>
             </div>
         );
     }
