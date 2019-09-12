@@ -116,7 +116,7 @@ export class MainContent extends React.Component {
 
         const filteredProduct = this.goods
                     .filter(product =>
-                        product.title && product.title.indexOf(searchValue) !== -1);
+                        product.title && product.title.match(new RegExp(searchValue, 'gi')));
         this.setState({
             filteredProduct
         });
