@@ -20,9 +20,15 @@
 .card.active {
   border-color: tomato;
 }
-.product__main-info {
+.product__main-info,
+.new-product__form {
   float: left;
   width: 50%;
+}
+
+.new-product__form > input,
+.new-product__form > textarea {
+  width: 100%;
 }
 
 .product__price > mark {

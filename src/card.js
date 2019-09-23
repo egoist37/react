@@ -10,6 +10,7 @@ export class Card extends Base {
         this.currencySign = '$';
         this.defaultPrice = '0';
         this.price = this.getPrice();
+        this.description = this.props.item.description;
         this.onClickHandler = this.onClickHandler.bind(this);
         this.handleClickAddToCart = this.handleClickAddToCart.bind(this);
         this.remove = this.remove.bind(this);
@@ -83,7 +84,8 @@ export class Card extends Base {
                     pathname: `/product/${this.props.item.id}`,
                     state: {
                         price: this.price,
-                        title: this.getTitle()
+                        title: this.getTitle(),
+                        description: this.description
                     }
                 }}
                       onClick={this.stopPropagation }>

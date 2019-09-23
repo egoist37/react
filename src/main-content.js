@@ -11,32 +11,34 @@ export class MainContent extends React.Component {
             {
                 title: 'iPhone Xs Max',
                 price: 'Infinity',
-                id: '02893hr089t3ehrhgeh'
+                id: '18362598165'
             },
             {
                 title: 'Samsung XXX',
                 price: '34567',
-                id: '30ij0iwstinsixnadskf'
+                id: '28394759823'
             },
             {
                 title: 'Xiomi Mi',
-                id: '3itjsijngxinsxfpnfx'
+                id: '2834759835'
             },
             {
                 title: 'Пылесос',
                 price: '5685',
-                id: 'weu89rg9sudfxudg'
+                id: '237894598345'
             },
             {
                 price: '2348957',
-                id: 'we9urh9uewbgbsorubodst'
+                id: '38942758923746'
             }
         ];
         this.cart = [];
+
+        const goods = this.getStoredProducts() || this.goods;
         this.state = {
             totalAmount: 0,
             cart: [],
-            filteredProduct: this.goods
+            filteredProduct: goods
         };
         this.searchValue = 'search smth';
         const that = this;
@@ -76,9 +78,16 @@ export class MainContent extends React.Component {
         this.setProductsState(goods);
     }
 
+    getStoredProducts() {
+        return  JSON.parse(localStorage.getItem('products'));
+    }
+
     componentDidMount() {
-        this.setProductsState(this.goods);
-        console.log('componentDidMount...');
+        const goods = this.getStoredProducts();
+        if (!goods) {
+            this.setProductsState(this.goods);
+        }
+        this.goods = goods;
     }
 
     componentWillMount() {
@@ -143,7 +152,6 @@ export class MainContent extends React.Component {
 
 
     render () {
-        console.log('render');
         return(
             <div className='wrapper'>
                 {this.cart.length ? this.renderCart() : (<div>empty cart, add something</div>)}
